@@ -15,7 +15,6 @@ def getPassword(query, userIndex):
         else:
             return False
     except KeyError:
-        print('KeyError')
         return False
 
 def getUser(query):
