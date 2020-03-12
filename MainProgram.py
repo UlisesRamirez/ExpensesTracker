@@ -17,16 +17,19 @@ from internalData import moneyInfo
 # if none of the valid functions is ingressed prompt error
 # then recursion
 def programFlow():
-    print('Fetching resources... \n')
-    action = input('ingress the desired action: ').split()
-    if action[0] == 'clear':
-        print('ask for yes or no, if yes: clear all expenses from lane if existent, if not existent: recursion, if no: recursion')
-    elif action[0] == 'current':
-        print('ask for desired type to calculate, if existent: pass to moneyInfo module to make the calculation, if not existent: raise KeyError then recursion')
-    elif action[0] == 'exit':
-        print('ask for confirmation, if yes: exit program, if no: recursion')
-    elif type(action[0]) == str and type(action[1]) == int:
-        print('')
+    indication = input('Ingress the desired action: ').split()
+    if indication[0] in moneyInfo.functionsList and len(indication) == 2:
+        if indication[1] in moneyInfo.lanes:
+            action = moneyInfo.functionsList[indication[0]]
+            argument = indication[1]
+            action(argument)
+        else:
+            print('Invalid lane given, try again. ')
+            programFlow()
+    elif indication[0] in moneyInfo.lanes and len(indication) == 3:
+        print('Adding value ' + indication[1] + ' to lane ' + indication[0])
+        moneyInfo.updateData(indication[0], indication[1], indication[2])
+        programFlow()
     else:
         print('unknown syntax, please try again\n')
         programFlow()
@@ -40,6 +43,7 @@ def ingressPassword(user):
 
     if credentials.getPassword(queriedPassword, user):
         print('\nWelcome ' + str(user) + '\n')
+        print('Fetching resources... \n')
         programFlow()
     else:
         print('user and password doesn\'t match... ')
