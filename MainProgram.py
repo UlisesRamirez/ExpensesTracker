@@ -30,6 +30,8 @@ def programFlow():
         print('Adding value ' + indication[1] + ' to lane ' + indication[0])
         moneyInfo.attachData(indication[0], indication[1], indication[2])
         programFlow()
+    elif len(indication) == 1 and indication[0].lower() == 'help':
+        print('help') #add help paths
     else:
         print('unknown syntax, please try again\n')
         programFlow()
@@ -40,7 +42,6 @@ def programFlow():
 # together with a unique key access to the users file
 def ingressPassword(user):
     queriedPassword = str(input('Ingress your password: '))
-
     if credentials.getPassword(queriedPassword, user):
         print('\nWelcome ' + str(user) + '\n')
         print('Fetching resources... \n')

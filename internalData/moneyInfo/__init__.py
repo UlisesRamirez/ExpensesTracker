@@ -17,9 +17,7 @@ def close(lane):
     exit()
 
 def averages(lane):
-    laneTotal = []
-    total = 0
-    indexer = 0
+    laneTotal, total, indexer = [], 0, 0
     while indexer < len(outgoData):
         temp = 0
         for j in outgoData[indexer]:
@@ -30,7 +28,8 @@ def averages(lane):
     secondIndexer = 0
     while secondIndexer < len(laneTotal):
         percentage = math.ceil(((laneTotal[secondIndexer] * 100) / total) * 100) / 100
-        print(percentage) #add format of print
+        print('the lane {} represents the {} of the total of {}'.format(laneTotal[secondIndexer], percentage, total))
+        secondIndexer += 1
 
 def attachData(typeOf, amount, description):
     try:
