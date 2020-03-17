@@ -28,7 +28,7 @@ def programFlow():
             programFlow()
     elif indication[0] in moneyInfo.lanes and len(indication) == 3:
         print('Adding value ' + indication[1] + ' to lane ' + indication[0])
-        moneyInfo.updateData(indication[0], indication[1], indication[2])
+        moneyInfo.attachData(indication[0], indication[1], indication[2])
         programFlow()
     else:
         print('unknown syntax, please try again\n')
