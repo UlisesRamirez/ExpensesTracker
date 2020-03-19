@@ -2,29 +2,30 @@ from internalData.userData import serviceCredentials as credentials
 from internalData.baseExpValues import base, exp
 from internalData import moneyInfo
 
-# --------------------- AP 2 -------------------------
-# Default flow of the program, manages the files in the
-# moneyInfo folder, has 4 funtions: clear: empties the 
-# called lane
-#                                   current: sums the
-# total of the seleceted lane
-#                                   exit: terminates
-# the program after user confirmation
-#                       *lane, amount*: adds the ingressed
-# amount to the selected lane if existent, if not: raise
-# KeyError
-#
-# if none of the valid functions is ingressed prompt error
-# then recursion
+'''
+TODO:
+
+Thinking of adding a separated .json for every user, and
+the admin account as a validator for creating new users
+and assigning the new file to the user. Then establish a
+dataBase-like functionality to access each of the files
+separately
+'''
 def programFlow():
-    indication = input('Ingress the desired action: ').split()
-    if indication[0] in moneyInfo.functionsList and len(indication) == 2:
-        if indication[1] in moneyInfo.lanes:
-            action = moneyInfo.functionsList[indication[0]]
-            argument = indication[1]
-            action(argument)
+    indication = input('\nIngress the desired action: ').split()
+    if indication[0] in moneyInfo.functionsList:
+        if len(indication) > 1:
+            if indication[1] in moneyInfo.lanes:
+                action = moneyInfo.functionsList[indication[0]]
+                argument = indication[1]
+                action(argument)
+                programFlow()
+            else:
+                print('Invalid lane given, try again. ')
+                programFlow()
         else:
-            print('Invalid lane given, try again. ')
+            action = moneyInfo.functionsList[indication[0]]
+            action()
             programFlow()
     elif indication[0] in moneyInfo.lanes and len(indication) == 3:
         print('Adding value ' + indication[1] + ' to lane ' + indication[0])
@@ -32,14 +33,14 @@ def programFlow():
         programFlow()
     elif len(indication) == 1 and indication[0].lower() == 'help':
         print('help') #add help paths
+        programFlow()
+    elif len(indication) == 1 and indication[0].lower() == 'exit':
+        print('Ending session...')
+        exit()
     else:
         print('unknown syntax, please try again\n')
         programFlow()
 
-# --------------------- AP 1 -------------------------
-# User checking steps, for differentiation of the bases
-# imports the verification steps from internal folders
-# together with a unique key access to the users file
 def ingressPassword(user):
     queriedPassword = str(input('Ingress your password: '))
     if credentials.getPassword(queriedPassword, user):

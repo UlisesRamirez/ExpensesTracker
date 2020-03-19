@@ -4,32 +4,36 @@ import math
 outgoData = json.load(open('internalData/moneyInfo/uramirez.json', 'r'))
 
 def clear(lane):
-    print('clear')
+    outgoData[lane] = []
+    with open('internalData/moneyInfo/uramirez.json', 'w') as file:
+        json.dump(outgoData, file, ensure_ascii= False, indent= 4)
 
 def current(lane):
-    current = 0
-    for item in outgoData[lane]:
-        current += outgoData[lane][item]["amout"]
-    print('The total spent on this lane is: ' + current)
+    current, i = 0, 0
+    while i < len(outgoData[lane]):
+        current += outgoData[lane][i]["amount"]
+        i += 1
+    print('The total spent on this lane is: ' + str(current))
 
-def close(lane):
-    print('Ending session... ')
-    exit()
-
-def averages(lane):
-    laneTotal, total, indexer = [], 0, 0
-    while indexer < len(outgoData):
-        temp = 0
-        for j in outgoData[indexer]:
-            total += outgoData[indexer][j]["amount"]
-            temp += outgoData[indexer][j]["amount"]
+def averages():
+    laneTotal, total = [], 0
+    for item in outgoData:
+        temp, i = 0, 0
+        while i < len(outgoData[item]):
+            total += outgoData[item][i]["amount"]
+            temp += outgoData[item][i]["amount"]
+            i += 1
         laneTotal.append(temp)
-        indexer += 1
-    secondIndexer = 0
-    while secondIndexer < len(laneTotal):
-        percentage = math.ceil(((laneTotal[secondIndexer] * 100) / total) * 100) / 100
-        print('the lane {} represents the {} of the total of {}'.format(laneTotal[secondIndexer], percentage, total))
-        secondIndexer += 1
+    indexer = 0
+    while indexer < len(laneTotal):
+        try:
+            percentage = math.ceil(((laneTotal[indexer] * 100) / total) * 100) / 100
+            print('the lane {} represents the {} of the total of {}'.format(laneTotal[indexer], percentage, total))
+            indexer += 1
+        except ZeroDivisionError:
+            print('Math error, there is no values added.')
+            print('add some expenses and try again... ')
+            break
 
 def attachData(typeOf, amount, description):
     try:
@@ -43,7 +47,6 @@ def attachData(typeOf, amount, description):
 functionsList = {
     "clear": clear,
     "current": current,
-    "exit": close,
     "average": averages
 }
 
