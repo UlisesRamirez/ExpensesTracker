@@ -4,7 +4,6 @@ from internalData import moneyInfo
 
 '''
 TODO:
-
 Thinking of adding a separated .json for every user, and
 the admin account as a validator for creating new users
 and assigning the new file to the user. Then establish a
@@ -57,7 +56,6 @@ def ingressUser():
         if credentials.getUser(queriedUser):
             ingressPassword(queriedUser)
         else:
-            print('no user found... ')
             ingressUser()
     else:
         print('KeyError raised, review the installation and try again')
