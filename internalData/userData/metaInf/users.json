@@ -8,10 +8,15 @@
         "uramirez": {
             "privileges": "user",
             "index": 1
+        },
+        "vramirez": {
+            "privileges": "user",
+            "index": 2
         }
     },
     "passwords": {
         "rosebud": 0,
-        "ulises666ulises": 1
+        "ulises666ulises": 1,
+        "pinocho": 2
     }
 }
